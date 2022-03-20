@@ -30,12 +30,13 @@
 
 <script>
 import firebaseConfig from '../firebaseConfig';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, TwitterAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, TwitterAuthProvider, GithubAuthProvider } from "firebase/auth";
 
 firebaseConfig
 
 const provider = new GoogleAuthProvider();
 const providerTwitter = new TwitterAuthProvider();
+const providerGithub = new GithubAuthProvider();
 const auth = getAuth();
 
 export default {
@@ -63,6 +64,15 @@ export default {
     },
     handleSignInTwitter() {
       signInWithPopup(auth, providerTwitter)
+        .then((result) => {          
+          this.user = result.user.displayName;
+          this.isSignedIn = true;
+        }).catch((error) => {
+          console.log(error);
+        });
+    },
+    handleSignInGitHub() {
+      signInWithPopup(auth, providerGithub)
         .then((result) => {          
           this.user = result.user.displayName;
           this.isSignedIn = true;
