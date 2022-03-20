@@ -30,11 +30,12 @@
 
 <script>
 import firebaseConfig from '../firebaseConfig';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, TwitterAuthProvider } from "firebase/auth";
 
 firebaseConfig
 
 const provider = new GoogleAuthProvider();
+const providerTwitter = new TwitterAuthProvider();
 const auth = getAuth();
 
 export default {
@@ -54,6 +55,15 @@ export default {
         .then((result) => {          
           // const user = result.user;
           // console.log(result.user.displayName)
+          this.user = result.user.displayName;
+          this.isSignedIn = true;
+        }).catch((error) => {
+          console.log(error);
+        });
+    },
+    handleSignInTwitter() {
+      signInWithPopup(auth, providerTwitter)
+        .then((result) => {          
           this.user = result.user.displayName;
           this.isSignedIn = true;
         }).catch((error) => {
